@@ -72,36 +72,58 @@ Excel::CloneXLSX::Format - Convert Spreadsheet::ParseXLS formats to Excel::Write
 =head1 SYNOPSIS
 
     use Excel::CloneXLSX::Format qw(translate_xlsx_format);
+    use Excel::Writer::XLSX;
+    use Safe::Isa;
+    use Spreadsheet::ParseXLSX;
 
-    my $old_workbook = Spreadsheet::ParseXLSX->new->parse('data/sample.xlsx');
+    my $old_workbook  = Spreadsheet::ParseXLSX->new->parse('t/data/sample.xlsx');
     my $old_worksheet = $old_workbook->worksheet('Sheet1');
-    my $old_cell = $old_worksheet->get_cell(0,0);
-    my $old_format = $old_cell->get_format();
 
-    my $new_workbook = Excel::Writer::XLSX->new;
+    open my $fh, '>', 't/data/converted.xlsx'
+        or die "Can't open output: $!";
+    my $new_workbook  = Excel::Writer::XLSX->new( $fh );
     my $new_worksheet = $new_workbook->add_worksheet();
 
-    my $fmt_props  = translate_xlsx_format( $old_format );
-    my $new_format = $new_workbook->add_format(%$fmt_props);
-    $new_worksheet->write(0, 0, $old_cell->value, $new_format);
+    my ($row_min, $row_max) = $old_worksheet->row_range();
+    my ($col_min, $col_max) = $old_worksheet->col_range();
+    for my $row ($row_min..$row_max) {
+        for my $col ($col_min..$col_max) {
+
+            my $old_cell   = $old_worksheet->get_cell($row, $col);
+            my $old_format = $old_cell->$_call_if_object('get_format');
+            my $fmt_props  = translate_xlsx_format( $old_format );
+            my $new_format = $new_workbook->add_format(%$fmt_props);
+            $new_worksheet->write(
+                $row, $col, ($old_cell->$_call_if_object('unformatted') || ''),
+                $new_format
+            );
+        }
+    }
+
+    $new_workbook->close;
 
 
 =head1 DESCRIPTION
 
-CPAN has a create module for reading XLSX files
-(L<Spreadsheet::ParseExcel>), and a great module for writing XLSX
-files (L<Excel::Writer::XLSX>), but no module for editing XLSX
-files. B<< L<Excel::CloneXLSX::Format> >>... won't do that either.  It
-will convert L<Spreadsheet::ParseExcel>-style cell formats to a
+CPAN has great modules for reading XLS/XLSX files
+(L<Spreadsheet::ParseExcel> / <L<Spreadsheet::ParseXLSX>), and a great
+module for writing XLSX files (L<Excel::Writer::XLSX>), but no module
+for editing XLSX files.  B<This> module... won't do that either.  It
+B<will> convert L<Spreadsheet::ParseExcel>-style cell formats to a
 structure that L<Excel::Writer::XLSX> will understand.
+
+My hope is to eventually release an Excel::CloneXLSX module that will
+create a copy of a C<< ::Parse* >> object, with hooks to modify the
+content.
+
 
 =head1 USAGE
 
 =head2 translate_xlsx_format( $cell->get_format() )
 
-Takes the hashref returned from Spreadsheet::ParseExcel's get_format
-method and returns a hashref that can be fed to Excel::Writer::XLSX's
-new_format method.
+Takes the hashref returned from L<Spreadsheet::ParseExcel>'s
+C<get_format()> method and returns a hashref that can be fed to
+L<Excel::Writer::XLSX>'s C<new_format()> method.
 
 =head3 What's Supported
 
@@ -120,6 +142,12 @@ new_format method.
 =head3 What isn't
 
 =over
+
+=item * Foreground Color
+
+Trying to set the foreground color produces weird results.  I think it
+might be a bug in C<Excel::Writer::XLSX>, but I haven't yet
+investigated.
 
 =item * Everything else
 
