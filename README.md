@@ -38,9 +38,9 @@ Excel::CloneXLSX::Format - Convert Spreadsheet::ParseXLS formats to Excel::Write
 # DESCRIPTION
 
 CPAN has great modules for reading XLS/XLSX files
-([Spreadsheet::ParseExcel](https://metacpan.org/pod/Spreadsheet::ParseExcel) / <[Spreadsheet::ParseXLSX](https://metacpan.org/pod/Spreadsheet::ParseXLSX)), and a great
+([Spreadsheet::ParseExcel](https://metacpan.org/pod/Spreadsheet::ParseExcel) / [Spreadsheet::ParseXLSX](https://metacpan.org/pod/Spreadsheet::ParseXLSX)), and a great
 module for writing XLSX files ([Excel::Writer::XLSX](https://metacpan.org/pod/Excel::Writer::XLSX)), but no module
-for editing XLSX files.  **This** module... won't do that either.  It
+for editing XLSX files.  _This_ module... won't do that either.  It
 **will** convert [Spreadsheet::ParseExcel](https://metacpan.org/pod/Spreadsheet::ParseExcel)-style cell formats to a
 structure that [Excel::Writer::XLSX](https://metacpan.org/pod/Excel::Writer::XLSX) will understand.
 
@@ -52,13 +52,13 @@ content.
 
 ## translate\_xlsx\_format( $cell->get\_format() )
 
-Takes the hashref returned from [Spreadsheet::ParseExcel](https://metacpan.org/pod/Spreadsheet::ParseExcel)'s
+Takes the hashref returned from [Spreadsheet::ParseExcel::Cell](https://metacpan.org/pod/Spreadsheet::ParseExcel::Cell)'s
 `get_format()` method and returns a hashref that can be fed to
 [Excel::Writer::XLSX](https://metacpan.org/pod/Excel::Writer::XLSX)'s `new_format()` method.
 
 ### What's Supported
 
-- Font (Family, Style, Size, {Super,Sub}script
+- Font (Family, Style, Size, {Super,Sub}script)
 - Background Color
 - Alignment
 - Border Style and Color
