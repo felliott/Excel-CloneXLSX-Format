@@ -106,9 +106,9 @@ Excel::CloneXLSX::Format - Convert Spreadsheet::ParseXLS formats to Excel::Write
 =head1 DESCRIPTION
 
 CPAN has great modules for reading XLS/XLSX files
-(L<Spreadsheet::ParseExcel> / <L<Spreadsheet::ParseXLSX>), and a great
+(L<Spreadsheet::ParseExcel> / L<Spreadsheet::ParseXLSX>), and a great
 module for writing XLSX files (L<Excel::Writer::XLSX>), but no module
-for editing XLSX files.  B<This> module... won't do that either.  It
+for editing XLSX files.  I<This> module... won't do that either.  It
 B<will> convert L<Spreadsheet::ParseExcel>-style cell formats to a
 structure that L<Excel::Writer::XLSX> will understand.
 
@@ -121,7 +121,7 @@ content.
 
 =head2 translate_xlsx_format( $cell->get_format() )
 
-Takes the hashref returned from L<Spreadsheet::ParseExcel>'s
+Takes the hashref returned from L<Spreadsheet::ParseExcel::Cell>'s
 C<get_format()> method and returns a hashref that can be fed to
 L<Excel::Writer::XLSX>'s C<new_format()> method.
 
@@ -129,7 +129,7 @@ L<Excel::Writer::XLSX>'s C<new_format()> method.
 
 =over
 
-=item * Font (Family, Style, Size, {Super,Sub}script
+=item * Font (Family, Style, Size, {Super,Sub}script)
 
 =item * Background Color
 
