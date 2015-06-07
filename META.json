@@ -1,10 +1,10 @@
 {
-   "abstract" : "Convert Spreadsheet::ParseXLS formats to Excel::Writer::XLSX",
+   "abstract" : "Convert Spreadsheet::ParseXLSX formats to Excel::Writer::XLSX",
    "author" : [
       "Fitz Elliott <felliott@fiskur.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.1.1, CPAN::Meta::Converter version 2.141520",
+   "generated_by" : "Minilla/v2.4.1, CPAN::Meta::Converter version 2.150001",
    "license" : [
       "perl_5"
    ],
@@ -64,6 +64,6 @@
          "web" : "https://github.com/felliott/Excel-CloneXLSX-Format"
       }
    },
-   "version" : "0.02",
+   "version" : "0.03",
    "x_authority" : "cpan:FELLIOTT"
 }

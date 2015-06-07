@@ -1,6 +1,6 @@
 # NAME
 
-Excel::CloneXLSX::Format - Convert Spreadsheet::ParseXLS formats to Excel::Writer::XLSX
+Excel::CloneXLSX::Format - Convert Spreadsheet::ParseXLSX formats to Excel::Writer::XLSX
 
 # SYNOPSIS
 
